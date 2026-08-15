@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ╔══════════════════════════════════════════════════════════════╗
+     ║  EDITAR: título de la pestaña del navegador                  ║
+     ╚══════════════════════════════════════════════════════════════╝ -->
+<title>Análisis de reproducciones durante el Mundial 2026</title>
+<meta name="description" content="Exploración visual de mi historial de reproducciones de YouTube.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 /* ═══════════════════════════════════════════════════════════════
    TOKENS — cambiá acá los colores y ya cambia toda la página
@@ -205,16 +221,7 @@ footer{
   </p>
 
   <div class="grafico">
-    <!-- ╔═══ PEGAR ACÁ EL GRÁFICO 1 ════════════════════════════════╗
-         RAWGraphs no da iframe: exportá SVG o PNG, guardalo en una
-         carpeta /img junto a este archivo, y reemplazá TODO el bloque
-         .pendiente de abajo por:
-
-           <img src="img/01-bump-chart.svg" alt="Bump chart de categorías por semana">
-
-         El SVG queda más nítido y pesa menos. Si lo editaste en Inkscape,
-         guardalo como "SVG plano" (Plain SVG), no como SVG de Inkscape.
-         ╚═══════════════════════════════════════════════════════════╝ -->
+   <img src="viz.svg" alt="Bump chart de categorías por semana">
     <div class="pendiente">
       <strong>Gráfico 1 — pendiente</strong>
       <span>Reemplazar por &lt;img src="img/01-bump-chart.svg"&gt;</span>
