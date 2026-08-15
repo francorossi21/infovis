@@ -1,1 +1,424 @@
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   TOKENS — cambiá acá los colores y ya cambia toda la página
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --tinta:#0F0F0F;          /* texto principal */
+  --tinta-suave:#5C5C5C;    /* texto secundario */
+  --papel:#FBFBFA;          /* fondo */
+  --panel:#F0EFED;          /* fondo de cajas */
+  --linea:#DCDAD5;          /* bordes */
+  --senal:#FF0033;          /* acento: el rojo del play */
+  --dato:#1D4E5F;           /* acento frío para números */
 
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --texto:'Newsreader',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+
+  --ancho:min(1180px,100% - 3rem);
+  --ancho-texto:66ch;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--papel);color:var(--tinta);
+  font-family:var(--texto);font-size:1.15rem;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--tinta);text-decoration-color:var(--senal);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--senal);outline-offset:3px}
+
+/* ── barra de progreso de scroll (como la de un video) ─────────── */
+#progreso{
+  position:fixed;top:0;left:0;height:4px;width:0%;
+  background:var(--senal);z-index:99;transition:width .1s linear;
+}
+
+/* ── portada ───────────────────────────────────────────────────── */
+.portada{
+  width:var(--ancho);margin-inline:auto;
+  padding:clamp(3rem,10vh,7rem) 0 clamp(2rem,6vh,4rem);
+  border-bottom:1px solid var(--linea);
+}
+.sello{
+  font-family:var(--mono);font-size:.75rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--tinta-suave);margin:0 0 1.5rem;
+}
+.portada h1{
+  font-family:var(--display);font-weight:800;
+  font-size:clamp(2.6rem,8vw,5.6rem);line-height:.95;
+  letter-spacing:-.03em;margin:0 0 1.5rem;max-width:16ch;
+}
+.portada h1 em{font-style:normal;color:var(--senal)}
+.bajada{
+  font-size:clamp(1.15rem,2.2vw,1.45rem);color:var(--tinta-suave);
+  max-width:52ch;margin:0 0 2.5rem;font-weight:300;
+}
+
+/* ── fichas de números ─────────────────────────────────────────── */
+.fichas{
+  display:grid;gap:1px;background:var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  border:1px solid var(--linea);
+}
+.ficha{background:var(--papel);padding:1.25rem 1rem}
+.ficha b{
+  display:block;font-family:var(--display);font-weight:700;
+  font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1;
+  letter-spacing:-.02em;color:var(--dato);
+}
+.ficha span{
+  display:block;margin-top:.4rem;font-family:var(--mono);
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--tinta-suave);line-height:1.4;
+}
+
+/* ── secciones de gráfico ──────────────────────────────────────── */
+.capitulo{
+  width:var(--ancho);margin-inline:auto;
+  padding:clamp(3.5rem,9vh,6rem) 0;
+  border-bottom:1px solid var(--linea);
+}
+.chapa{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--tinta);color:#fff;border-radius:4px;
+  padding:.3rem .6rem;font-family:var(--mono);font-size:.72rem;
+  letter-spacing:.06em;margin-bottom:1.25rem;
+}
+.chapa i{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--senal);font-style:normal;
+}
+.capitulo h2{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(1.75rem,4.2vw,2.9rem);line-height:1.08;
+  letter-spacing:-.025em;margin:0 0 1.25rem;max-width:22ch;
+}
+.capitulo p{max-width:var(--ancho-texto);margin:0 0 1.15rem}
+.capitulo p:last-of-type{margin-bottom:0}
+.destacado{
+  font-family:var(--display);font-weight:400;font-size:1.35rem;
+  line-height:1.45;border-left:3px solid var(--senal);
+  padding-left:1.15rem;color:var(--tinta);
+}
+
+/* ── contenedor del gráfico ────────────────────────────────────── */
+.grafico{
+  margin:2.25rem 0 1.5rem;background:#fff;
+  border:1px solid var(--linea);padding:.75rem;
+}
+.grafico iframe{width:100%;border:0;display:block}
+.pie{
+  font-family:var(--mono);font-size:.74rem;line-height:1.6;
+  color:var(--tinta-suave);max-width:var(--ancho-texto);
+  padding-top:.25rem;
+}
+.pie b{color:var(--tinta);font-weight:400}
+
+/* hueco visible mientras no pegaste el embed — se borra solo al pegarlo */
+.pendiente{
+  display:grid;place-content:center;text-align:center;gap:.5rem;
+  min-height:380px;background:var(--panel);
+  border:2px dashed var(--linea);
+  font-family:var(--mono);font-size:.8rem;color:var(--tinta-suave);
+  padding:2rem;
+}
+.pendiente strong{color:var(--senal);font-weight:400}
+
+/* ── método y cierre ───────────────────────────────────────────── */
+.metodo{background:var(--panel);border-block:1px solid var(--linea)}
+.metodo .capitulo{border-bottom:0}
+.metodo ol{max-width:var(--ancho-texto);padding-left:1.3rem;margin:0}
+.metodo li{margin-bottom:.85rem}
+.aviso{
+  max-width:var(--ancho-texto);margin-top:2rem;padding:1.15rem 1.35rem;
+  background:var(--papel);border:1px solid var(--linea);
+  border-left:3px solid var(--dato);font-size:1rem;
+}
+.aviso h3{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;margin:0 0 .6rem;color:var(--dato);
+}
+.aviso p{margin:0 0 .6rem}
+.aviso p:last-child{margin:0}
+
+footer{
+  width:var(--ancho);margin-inline:auto;
+  padding:3rem 0;font-family:var(--mono);font-size:.76rem;
+  color:var(--tinta-suave);display:flex;gap:1.5rem;flex-wrap:wrap;
+  justify-content:space-between;
+}
+
+@media (max-width:640px){
+  body{font-size:1.05rem}
+  .destacado{font-size:1.15rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #progreso{transition:none}
+}
+</style>
+</head>
+
+<body>
+<div id="progreso"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PORTADA
+     ═══════════════════════════════════════════════════════════════ -->
+<header class="portada">
+  <p class="sello">Visualización de datos personales · ECD.2025.C</p>
+
+  <h1>Reproducciones de Youtube en el <em>Mundial 2026</em>.</h1>
+
+  <p class="bajada">
+    <!-- EDITAR: tu bajada. Dos o tres líneas contando de qué va la página. -->
+    Breve análisis desde Abril a Agosto de 2026, de mi canal de Youtube, extrayendo
+    los datos de Google Takeout.
+  </p>
+
+  <div class="fichas">
+    <!-- EDITAR: los números de tu dataset -->
+    <div class="ficha"><b>11.804</b><span>registros</span></div>
+    <div class="ficha"><b>6.273</b><span>videos</span></div>
+    <div class="ficha"><b>1.352</b><span>canales</span></div>
+    <div class="ficha"><b>107</b><span>días seguidos</span></div>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CAPÍTULO 1 — RAWGraphs
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="capitulo">
+  <p class="chapa"><i></i>01 · RAWGraphs</p>
+
+  <h2>¿Qué géneros lideran mi ranking?</h2>
+
+  <p>
+    <!-- EDITAR: presentá el gráfico antes de mostrarlo. Qué mira, por qué. -->
+    Agrupé los 6.273 videos en categorías temáticas y ordené las 15 semanas
+    completas del período. El gráfico no muestra cuánto miro de cada cosa,
+    sino en qué puesto quedó cada categoría, semana a semana.
+  </p>
+
+  <div class="grafico">
+    <!-- ╔═══ PEGAR ACÁ EL GRÁFICO 1 ════════════════════════════════╗
+         RAWGraphs no da iframe: exportá SVG o PNG, guardalo en una
+         carpeta /img junto a este archivo, y reemplazá TODO el bloque
+         .pendiente de abajo por:
+
+           <img src="img/01-bump-chart.svg" alt="Bump chart de categorías por semana">
+
+         El SVG queda más nítido y pesa menos. Si lo editaste en Inkscape,
+         guardalo como "SVG plano" (Plain SVG), no como SVG de Inkscape.
+         ╚═══════════════════════════════════════════════════════════╝ -->
+    <div class="pendiente">
+      <strong>Gráfico 1 — pendiente</strong>
+      <span>Reemplazar por &lt;img src="img/01-bump-chart.svg"&gt;</span>
+    </div>
+  </div>
+
+
+  <p class="destacado">
+    <!-- EDITAR: la conclusión de este gráfico, en una frase. -->
+    Música arranca segunda y termina séptima. Entrevistas y podcasts hace
+    el camino inverso.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CAPÍTULO 2 — DataWrapper
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="capitulo">
+  <p class="chapa"><i></i>02 · DataWrapper</p>
+
+  <h2>¿Qué le pasó a mi consumo de fútbol a partid de junio?</h2>
+
+  <p>
+    <!-- EDITAR -->
+    Este es un zoom dentro de la categoría más grande. Deportes se abre en
+    siete subgrupos, y uno de ellos se comporta distinto a todos los demás.
+  </p>
+
+  <div class="grafico">
+    <!-- ╔═══ PEGAR ACÁ EL GRÁFICO 2 ════════════════════════════════╗
+         En DataWrapper: paso 4 "Publish & Embed" → "Responsive iframe".
+         Copiás el bloque completo y reemplazás todo el .pendiente.
+         ╚═══════════════════════════════════════════════════════════╝ -->
+    <div class="pendiente">
+      <strong>Gráfico 2 — pendiente</strong>
+      <span>Pegar el iframe responsive de DataWrapper</span>
+    </div>
+  </div>
+
+  <p class="pie">
+    <b>Fuente:</b> elaboración propia · 15 semanas completas.
+  </p>
+
+  <p class="destacado">
+    <!-- EDITAR -->
+    Fútbol pasa de 37 videos semanales a 156 en tres semanas. Boxeo, al lado,
+    no se mueve.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CAPÍTULO 3 — Tableau Public
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="capitulo">
+  <p class="chapa"><i></i>03 · Tableau Public</p>
+
+  <h2>¿Cómo es un domingo de atracón, hora por hora?</h2>
+
+  <p>
+    <!-- EDITAR -->
+    El 3 de mayo miré 236 videos. Es el día más cargado de todo el historial.
+    Elegí cualquier otra fecha en el filtro para compararlo.
+  </p>
+
+  <div class="grafico">
+    <!-- ╔═══ PEGAR ACÁ EL GRÁFICO 3 ════════════════════════════════╗
+         En Tableau Public: botón "Share" → "Embed Code".
+         Pegalo reemplazando el .pendiente.
+         Si te queda cortado, buscá dentro del código pegado
+         width='800px' y cambialo por width='100%'.
+         ╚═══════════════════════════════════════════════════════════╝ -->
+    <div class="pendiente">
+      <strong>Gráfico 3 — pendiente</strong>
+      <span>Pegar el código de inserción de Tableau Public</span>
+    </div>
+  </div>
+
+  <p class="pie">
+    <b>Fuente:</b> elaboración propia · 6.273 videos, uno por fila.
+  </p>
+
+  <p class="destacado">
+    <!-- EDITAR -->
+    Los domingos no miro cosas distintas: miro casi el doble de cosas.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CAPÍTULO 4 — Flourish
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="capitulo">
+  <p class="chapa"><i></i>04 · Flourish</p>
+
+  <h2><!-- EDITAR: tu pregunta -->¿Cuánto dura un canal en mi cabeza?</h2>
+
+  <p>
+    <!-- EDITAR -->
+    Sobre 1.352 canales distintos, 878 aparecen una sola vez y nunca más.
+    Un canal sube, dura dos semanas y desaparece.
+  </p>
+
+  <div class="grafico">
+    <!-- ╔═══ PEGAR ACÁ EL GRÁFICO 4 ════════════════════════════════╗
+         En Flourish: "Export & publish" → "Publish to share and embed"
+         → copiás el iframe. Reemplazá el .pendiente.
+         ╚═══════════════════════════════════════════════════════════╝ -->
+    <div class="pendiente">
+      <strong>Gráfico 4 — pendiente</strong>
+      <span>Pegar el iframe de Flourish</span>
+    </div>
+  </div>
+
+  <p class="pie">
+    <b>Fuente:</b> elaboración propia.
+  </p>
+
+  <p class="destacado">
+    <!-- EDITAR -->
+    El 65% de los canales que YouTube me recomendó no volvió a aparecer nunca.
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MÉTODO — suma en la nota, no lo borres
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="metodo">
+  <section class="capitulo">
+    <p class="chapa"><i></i>Cómo lo hice</p>
+    <h2>De un JSON de Google Takeout a cuatro gráficos</h2>
+
+    <ol>
+      <li>
+        <b>Exporté</b> el historial de YouTube desde Google Takeout y lo pasé
+        a una tabla de 11.804 filas.
+      </li>
+      <li>
+        <b>Clasifiqué</b> cada video en un grupo temático y un subgrupo. El
+        método fue en tres pasadas: un mapa manual de los canales más vistos,
+        reglas de palabras clave sobre los títulos, y propagación de la
+        categoría mayoritaria al resto de los videos de cada canal.
+      </li>
+      <li>
+        <b>Agregué</b> las tablas de cada gráfico con pandas, en un notebook
+        que se puede volver a correr de cero.
+      </li>
+      <li>
+        <b>Armé</b> cada visualización en su herramienta y las integré en
+        esta página.
+      </li>
+    </ol>
+
+    <div class="aviso">
+      <h3>Lo que estos datos no pueden decir</h3>
+      <p>
+        El export de YouTube no incluye la duración de los videos. Todo lo que
+        se mide acá es <b>cantidad de reproducciones</b>, no tiempo. Un
+        registro puede haber sido un Short de ocho segundos o un documental
+        de tres horas.
+      </p>
+      <p>
+        Quedaron 905 videos sin clasificar (14% del total) y 222 que ya no
+        están disponibles porque fueron borrados o pasaron a privado.
+      </p>
+    </div>
+  </section>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CIERRE
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="capitulo">
+  <p class="chapa"><i></i>Conclusiones</p>
+  <h2>Qué aprendí mirándome mirar</h2>
+
+  <p>
+    <!-- EDITAR: acá va tu cierre. Tres o cuatro párrafos.
+         Sugerencia: una idea por párrafo, y que la última sea la más fuerte. -->
+    Escribí acá tus conclusiones.
+  </p>
+</section>
+
+<footer>
+  <!-- EDITAR: tu nombre y el link a tu repo -->
+  <span>Tu Nombre · ECD.2025.C · agosto 2026</span>
+  <span><a href="#">Código y datos en GitHub</a></span>
+</footer>
+
+<script>
+// barra de progreso de lectura
+(function(){
+  var barra = document.getElementById('progreso');
+  function actualizar(){
+    var alto = document.documentElement.scrollHeight - window.innerHeight;
+    barra.style.width = alto > 0 ? (window.scrollY / alto * 100) + '%' : '0%';
+  }
+  window.addEventListener('scroll', actualizar, {passive:true});
+  window.addEventListener('resize', actualizar);
+  actualizar();
+})();
+</script>
+</body>
+</html>
